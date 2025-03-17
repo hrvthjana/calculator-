@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulátor</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to top, white, #D9D9E1);    
+            margin: 0;
+        }
+        .container {
+            display: flex;
+            width: 80%;
+            max-width: 1000px;
+        }
+        .side {
+            flex: 1;
+        }
+        .form-container {
+            flex: 3;
+            background: #495867;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow:  10px 20px 30px rgba(38, 39, 53, 0.6);
+            text-align: center;
+            position: relative;
+            min-height: 580px;
+        }
+        input {
+            width: 80%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 18px;
+            outline: none;
+            background-color: #F7F7FF;
+            color: #262735;
+            box-shadow: inset 5px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            background: #4C8577;
+            color: #F7F7FF;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+        }
+        button:hover {
+            background:  #7F636E;
+
+        }
+        h2{
+            color:white ;
+            font-size: 130%;
+        }
+        a{
+            color:#F7F7FF ;
+            align-self: left;
+        }
+
+        @media (max-width: 600px) {
+        .side {
+        display: none; /* Oldalsó sávok eltüntetése */
+        }
+
+        .container {
+            width: 95vw;
+            height: 85vh; /* A form-container teljes szélességet kapjon */
+        }
+
+        .form-container {
+            width: 90%; /* Kicsit keskenyebb form doboz, hogy ne érjen teljesen ki */
+            min-height: auto; /* Magasság automatikus legyen */
+        }
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="side"></div>
+        <div class="form-container">
+            <h2>Fordulatszám Kalkulátor</h2>
+            <form id="contact-form">
+                <input type="number" id="atmero" placeholder="Átmérő (cm)" required>
+                <input type="number" id="magassag" placeholder="Távolság (cm)" required>
+                <input type="number" id="teljesitmeny" placeholder="Szállítási mennyiség (liter/perc)" required>
+                <input type="number" id="maxido" placeholder="Maximum idő (perc)" required>
+                <input type="number" id="minido" placeholder="Minimum idő (perc)" required>
+                <input type="number" id="maxforgatas" placeholder="Fordulatok száma (fordulat)" required>
+                <button type="submit">Kiszámít</button>
+            </form>
+            <br>
+            <label><a>Eredmény</a> <br> 
+            </label>
+            <input type="number" id="eredmeny" placeholder="(fordulat)">
+        </div>
+        <div class="side"></div>
+    </div>
+    
+    <script>
+        document.getElementById("contact-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+    
+            // Az input mezők értékeinek lekérése
+            const atmero = parseFloat(document.getElementById("atmero").value);
+            const magassag = parseFloat(document.getElementById("magassag").value);
+            const teljesitmeny = parseFloat(document.getElementById("teljesitmeny").value);
+            const maxido = parseFloat(document.getElementById("maxido").value);
+            const minido = parseFloat(document.getElementById("minido").value);
+            const maxforgatas = parseFloat(document.getElementById("maxforgatas").value);
+    
+            // Ellenőrzés, hogy minden mező ki van-e töltve
+            if (isNaN(atmero) || isNaN(magassag) || isNaN(teljesitmeny) || isNaN(maxido) || isNaN(minido) || isNaN(maxforgatas)) {
+                alert("Kérlek, töltsd ki az összes mezőt!");
+                return;
+            }
+    
+            // Példa számítás: egyszerűbb példa, de természetesen az igényeid szerint módosítható
+            // Eredmény kiszámítása
+            const terfogat = atmero*Math.PI*magassag/1000;
+            const ido = terfogat/teljesitmeny;
+            const dtime = (maxido-minido)/maxforgatas;
+
+            
+            const eredmeny = ido*dtime;
+    
+            // Az eredmény beírása az input mezőbe
+            document.getElementById("eredmeny").value = eredmeny.toFixed(4); // Két tizedesjegy pontossággal
+        });
+    </script>
+    
+</body>
+</html>
